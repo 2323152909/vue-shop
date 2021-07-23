@@ -12,7 +12,7 @@ export function userlist(params){
 // 修改用户状态
 export function userState(uid, type){
   return request1({
-    url:`users/${uid}/state/${type}`,
+    url:`/users/${uid}/state/${type}`,
     method:'put'
   })
 }
@@ -23,5 +23,30 @@ export function addUsers(data){
     url:'/users',
     method:'post',
     data:data
+  })
+}
+
+// 根据id查找用户信息
+export function getUserInfoById(id){
+  return request1({
+    url:`/users/${id}`,
+    method:'get'
+  })
+}
+
+// 修改用户信息
+export function changeUser(id, data){
+  return request1({
+    url:`/users/${id}`,
+    method:'put',
+    data:data
+  })
+}
+
+// 删除用户
+export function removeUser(uid){
+  return request1({
+    url:`/users/${uid}`,
+    method:'delete'
   })
 }
