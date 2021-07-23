@@ -41,7 +41,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="delUser(scope.row.id)"></el-button>
             <!-- 分配角色按钮 -->
             <el-tooltip content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -50,6 +50,7 @@
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
+
     <!-- 添加用户对话框 -->
     <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="$refs.addFormRef.resetFields()">
       <!-- 内容主题区域 -->
@@ -73,6 +74,7 @@
         <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
+
     <!-- 修改用户信息对话框 -->
     <el-dialog title="修改用户信息" :visible.sync="changeDialogVisible" width="50%" @close="$refs.changeFormReg.resetFields()">
       <!-- 内容主体区域 -->
@@ -92,11 +94,30 @@
         <el-button type="primary" @click="changeUserInfo">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 用户分配角色对话框 -->
+    <el-dialog title="提示" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClose">
+      <div>
+        <p>当前的用户：{{currentUserInfo.username}}</p>
+        <p>当前的角色：{{currentUserInfo.role_name}}</p>
+        <p>分配新角色：
+          <el-select v-model="selectedRoleId" placeholder="请选择">
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
+            </el-option>
+          </el-select>
+        </p>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { userlist, userState, addUsers, getUserInfoById, changeUser, removeUser } from "../../network/users";
+import { userlist, userState, addUsers, getUserInfoById, changeUser, removeUser, setRoleForUser } from "../../network/users";
+import { getRoles } from '../../network/power'
 
 export default {
   name: "users",
@@ -128,7 +149,7 @@ export default {
         // 当前的页数
         pagenum: 1,
         // 当前每页显示多少调数据
-        pagesize: 2,
+        pagesize: 2
       },
       userlist: [],
       total: 0,
@@ -187,7 +208,15 @@ export default {
           { required: true, message: "请填写手机号", trigger: "blur" },
           { validator: checkMobile, trigger: "blur" }
         ]
-      }
+      },
+      // 控制为用户分配角色窗口显示
+      setRoleDialogVisible: false,
+      // 当前用户信息
+      currentUserInfo: {},
+      // 所有角色的列表
+      rolesList: [],
+      // 已经选中的角色roleId 值
+      selectedRoleId:''
     };
   },
   created() {
@@ -198,10 +227,11 @@ export default {
     async getUserList() {
       const { data: res } = await userlist(this.queryInfo);
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
+      console.log(res);
       this.userlist = res.data.users;
       this.total = res.data.total;
       // this.$message.success(res.meta.msg);
-      console.log(res);
+      // console.log(res);
     },
     // 监听pagesize（每页多少条数据）改变的事件
     handleSizeChange(newSize) {
@@ -287,6 +317,43 @@ export default {
       }).catch(() => {
         this.$message.info("已取消");
       });
+    },
+    // 为用户分配角色
+    async setRole(userInfo) {
+      this.currentUserInfo = userInfo;
+      // console.log(this.currentUserInfo);
+
+      // 展示对话框之前，获取所有的角色列表
+      const { data: res } = await getRoles();
+      if (res.meta.status !== 200) {
+        return this.$message("获取角色列表失败！")
+      }
+      console.log(res);
+      this.rolesList = res.data;
+
+      this.setRoleDialogVisible = true;
+    },
+    // 保存为用户分配的角色
+    async saveRoleInfo(){
+      if(!this.selectedRoleId){
+        return this.$message.error("未选择要分配的角色！")
+      }
+      const { data:res } = await setRoleForUser(this.currentUserInfo.id, {
+        rid: this.selectedRoleId
+      });
+      console.log(res);
+      if(res.meta.status !== 200){
+        return this.$message.error("为用户分配角色失败！");
+      }
+      this.$message.success("为用户分配角色成功！");
+      this.getUserList();
+
+      this.setRoleDialogVisible = false
+    },
+    // 关闭窗口，将当前用户信息以及所选 id 回归初始值
+    setRoleDialogClose(){
+      this.currentUserInfo = {};
+      this.selectedRoleId = '';
     }
   },
 };

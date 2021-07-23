@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Login from '../components/Login'
-import Home from '../components/Home'
-import Welcome from '../views/home/Welcome'
-import Users from '../views/user/Users'
-import Roles from '../views/role/Roles'
-import Rights from '../views/role/Rights'
+// import Login from '../components/Login'
+const Login = () => import('../components/Login')
+// import Home from '../components/Home'
+const Home = () =>  import('../components/Home')
+// import Welcome from '../components/Welcome'
+const Welcome = () =>  import('../components/Welcome')
+// import Users from '../views/user/Users'
+const Users = () =>  import('../views/user/Users')
+// import Roles from '../views/power/Roles'
+const Roles = () =>  import('../views/power/Roles')
+// import Rights from '../views/power/Rights'
+const Rights = () =>  import('../views/power/Rights')
 
 Vue.use(VueRouter)
 

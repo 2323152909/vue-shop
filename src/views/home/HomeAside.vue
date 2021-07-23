@@ -71,7 +71,7 @@ export default {
       if (res.meta.status !== 200) return this.$message.error("获取数据失败！");
       // this.$message.success(res.meta.msg);
       this.menulist = res.data;
-      console.log(res);
+      // console.log(res);
     },
     toggleCollapse(){
       this.iscollapse = !this.iscollapse;
