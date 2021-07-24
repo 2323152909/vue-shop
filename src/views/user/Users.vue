@@ -227,7 +227,7 @@ export default {
     async getUserList() {
       const { data: res } = await userlist(this.queryInfo);
       if (res.meta.status !== 200) return this.$message.error(res.meta.msg);
-      console.log(res);
+      // console.log(res);
       this.userlist = res.data.users;
       this.total = res.data.total;
       // this.$message.success(res.meta.msg);

@@ -18,3 +18,8 @@ html, body, #app{
 .el-pagination{
   margin-top: 15px;
 }
+/* 给联级样式表加高度 */
+.el-cascader-menu{
+  height: 300px;
+  overflow: hidden;
+}
