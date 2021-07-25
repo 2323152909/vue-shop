@@ -7,10 +7,10 @@ export function request1(config) {
   });
 
   // 请求拦截器 
-  instance.interceptors.request.use(config => {
+  instance.interceptors.request.use(request => {
     // 为请求头对象，添加token 验证的 Authorization 字段
-    config.headers.Authorization = sessionStorage.getItem('token');
-    return config;
+    request.headers.Authorization = sessionStorage.getItem('token');
+    return request;
   }, error => {
     return Promise.reject(error);
   });

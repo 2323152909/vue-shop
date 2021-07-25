@@ -23,3 +23,16 @@ html, body, #app{
   height: 300px;
   overflow: hidden;
 }
+.el-steps{
+  margin: 20px;
+}
+.el-steps_title{
+  font-size: 13px;
+}
+.el-form-item{
+  margin: 20px;
+}
+/* 富文本编辑器的最小高度 */
+.ql-editor{
+  min-height: 300px;
+}

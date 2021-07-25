@@ -6,27 +6,14 @@
         <img src="../assets/logo.png" alt="" />
       </div>
       <!-- 登录表单区域 -->
-      <el-form
-        :model="loginForm"
-        :rules="loginFormRules"
-        label-width="0px"
-        class="login_form"
-        ref="loginFormRef"
-      >
+      <el-form :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form" ref="loginFormRef">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input
-            v-model="loginForm.username"
-            prefix-icon="el-icon-user"
-          ></el-input>
+          <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input
-            v-model="loginForm.password"
-            prefix-icon="el-icon-lock"
-            type="password"
-          ></el-input>
+          <el-input v-model="loginForm.password" prefix-icon="el-icon-lock" type="password"></el-input>
         </el-form-item>
         <!-- 按钮区域 -->
         <el-form-item class="btns">
@@ -79,7 +66,7 @@ export default {
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return;
-        const { data:res } = await getLoginData(this.loginForm);
+        const { data: res } = await getLoginData(this.loginForm);
         console.log(res);
         if (res.meta.status !== 200) return this.$message.error("登录失败！");
         this.$message.success("登录成功！");
@@ -89,7 +76,7 @@ export default {
          *  1.2 token 只应在当前网站打开期间生效， 所以将token 保存在 sessionStorage中
          */
         sessionStorage.setItem('token', res.data.token);
-        
+
         /**
          * 2.通过编程式导航跳转到后台主页，路由地址是 /home
          */
