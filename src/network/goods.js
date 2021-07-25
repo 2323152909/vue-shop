@@ -1,6 +1,6 @@
 import { request1 } from './request'
 
-// 获取商品分类列表
+// 获取商品分类列表(也可以不穿params参数，如果不穿params 参数，则一次将所有层级的商品分类全部获取)
 // 此处需要传递的参数为params参数，不是请求体参数
 export function getCates(data){
     return request1({
@@ -41,6 +41,50 @@ export function editCate(id, data){
 export function removeCate(id){
     return request1({
         url:`categories/${id}`,
+        method: 'delete',
+    })
+}
+
+// 获取参数列表
+export function getParams(id, params){
+    return request1({
+        url:`categories/${id}/attributes`,
+        method: 'get',
+        params: params
+    })
+}
+
+// 添加动态参数或静态属性接口
+export function addParams(id, data){
+    return request1({
+        url:`categories/${id}/attributes`,
+        method: 'post',
+        data:data
+    })
+}
+
+// 根据id查询参数接口
+export function getParamsById(cateId, attrId, data){
+    return request1({
+        url:`categories/${cateId}/attributes/${attrId}`,
+        method: 'get',
+        data:data
+    })
+}
+
+// 编辑提交参数接口
+export function editParams(cateId, attrId, data){
+    return request1({
+        url:`categories/${cateId}/attributes/${attrId}`,
+        method: 'put',
+        data:data
+    })
+}
+
+// 编辑提交参数接口
+export function removeParams(cateId, attrId){
+    return request1({
+        url:`categories/${cateId}/attributes/${attrId}`,
         method: 'delete',
     })
 }
