@@ -17,6 +17,7 @@ const Cate = () => import('../views/goods/Cate')
 const Params = () => import('../views/goods/Params')
 const List = () => import('../views/goods/List')
 const Add = () => import('../views/goods/Add')
+const Order = () => import('../views/order/Order')
 
 Vue.use(VueRouter)
 
@@ -24,55 +25,72 @@ const routes = [{
     path: '/',
     redirect: '/login'
   },
+  // 登录页面路由信息
   {
     name: 'login',
     path: '/login',
     component: Login
   },
+  // 主页路由信息
   {
     name: 'home',
     path: '/home',
     redirect: '/welcome',
     component: Home,
+    // 主页中的子面板路由信息
     children: [{
+        // 欢迎页面路由信息，默认进入主页重定向到欢迎页面
         name: 'welcome',
         path: '/welcome',
         component: Welcome
       },
+      // 用户列表路由信息
       {
         name: 'users',
         path: '/users',
         component: Users
       },
+      // 权限管理的角色管理路由信息
       {
         name: 'roles',
         path: '/roles',
         component: Roles
       },
+      // 权限管理的权限列表路由信息
       {
         name: 'rights',
         path: '/rights',
         component: Rights
       },
+      // 商品分类路由信息
       {
         name: 'cate',
         path: '/categories',
         component: Cate
       },
+      // 商品参数路由信息
       {
         name: 'params',
         path: '/params',
         component: Params
       },
+      // 商品列表信息
       {
         name: 'list',
         path: '/goods',
         component: List
       },
+      // 商品列表中的商品添加路由信息
       {
-        name:'add',
-        path:'/goods/add',
+        name: 'add',
+        path: '/goods/add',
         component: Add
+      },
+      // 订单管理页面路由信息
+      {
+        name: 'order',
+        path: '/orders',
+        component: Order
       }
     ]
   }
