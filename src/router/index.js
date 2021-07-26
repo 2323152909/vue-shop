@@ -18,6 +18,7 @@ const Params = () => import('../views/goods/Params')
 const List = () => import('../views/goods/List')
 const Add = () => import('../views/goods/Add')
 const Order = () => import('../views/order/Order')
+const Report = () => import('../views/report/Report')
 
 Vue.use(VueRouter)
 
@@ -91,6 +92,12 @@ const routes = [{
         name: 'order',
         path: '/orders',
         component: Order
+      },
+      // 数据报表页面路由信息
+      {
+        name: 'report',
+        path: '/reports',
+        component: Report
       }
     ]
   }
