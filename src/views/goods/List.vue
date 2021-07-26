@@ -81,6 +81,8 @@
 
 <script>
 import { getGoods, removeGoods, getGoodsById, editGoods } from '../../network/goods'
+// 导入 lodash包（附带有深拷贝功能的包）
+import _ from 'lodash'
 
 export default {
   name: 'list',
@@ -97,6 +99,7 @@ export default {
       // 商品总数
       total: 0,
       editForm: {
+        goods_cat: [],
         goods_id: 0,
         goods_name: '',
         goods_price: 0,
@@ -163,32 +166,59 @@ export default {
       this.getGoodsList();
     },
     async showGoods(goodsInfo) {
-      console.log(goodsInfo);
-      console.log(goodsInfo.goods_id);
+      // console.log(goodsInfo);
+      // console.log(goodsInfo.goods_id);
       const { data: res } = await getGoodsById(goodsInfo.goods_id);
-      console.log(res);
+      // console.log(res);
       if (res.meta.status !== 200) {
         return this.$message.error("请求商品数据失败！");
       }
+      this.editForm.goods_cat.push(res.data.cat_one_id, res.data.cat_two_id, res.data.cat_three_id);
       this.editForm.goods_id = goodsInfo.goods_id;
       this.editForm.goods_name = res.data.goods_name;
       this.editForm.goods_price = res.data.goods_price;
       this.editForm.goods_number = res.data.goods_number;
       this.editForm.goods_weight = res.data.goods_weight;
       this.editForm.goods_introduce = res.data.goods_introduce;
-      this.editForm.pics = res.data.pics;
-      this.editForm.attrs = res.data.attrs;
+
+      // 将pics转换为后台需要的形式
+      // res.data.pics.forEach(item => {
+      //   const newItem = {
+      //     pic : item.pics_big_url
+      //   }
+      //   return this.editForm.attrs.push(newItem);
+      // })
+
+      // 此处可不传，暂时省略
+      // res.data.attrs.forEach(item => {
+      //   //判断 attrs商品参数是否为空
+      //   if (item.length !== 0) {
+      //     const newItem = {
+      //       attr_id: item.attr_id,
+      //       attr_value: item.attr_value
+      //     }
+      //     return this.editForm.attrs.push(newItem);
+      //   }
+      //   return []
+      // })
       console.log(this.editForm);
 
       this.editGoodsDialogVisible = true;
     },
     async editGoods() {
-      const { data: res } = await editGoods(this.editForm.goods_id, this.editForm);
-      console.log(res);
-      if (res.meta.status !== 201) {
+      // 深拷贝编辑商品表单数据
+      const form = _.cloneDeep(this.editForm);
+      // 将商品分类数组转化为一个以逗号分割的字符串
+      form.goods_cat = form.goods_cat.join(',');
+      // console.log(form);
+
+      const { data: res } = await editGoods(form.goods_id, form);
+      // console.log(res);
+      if (res.meta.status !== 200) {
         return this.$message.error("修改商品数据失败！");
       }
-      this.$message.error("修改商品数据成功！");
+      this.$message.success("修改商品数据成功！");
+
       this.getGoodsList();
       this.editGoodsDialogVisible = false;
     },
