@@ -23,7 +23,7 @@ const Report = () => import('../views/report/Report')
 Vue.use(VueRouter)
 
 const routes = [{
-    path: '/',
+    path: '',
     redirect: '/login'
   },
   // 登录页面路由信息
