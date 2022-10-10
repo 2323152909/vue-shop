@@ -1,14 +1,5 @@
 module.exports = {
   publicPath: './',
-  devServer: {
-    proxy: {
-      '^/api': {
-        target: 'http://120.79.64.82:8888',
-        changeOrigin: true,
-        pathRewrite: { '^/api': '/api/private/v1' }
-      }
-    }
-  },
   // 修改默认打包入口
   chainWebpack: (config) => {
     // 发布模式

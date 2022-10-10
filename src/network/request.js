@@ -6,7 +6,7 @@ import NProgress from 'nprogress';
 
 export function request1(config) {
   const instance = axios.create({
-    baseURL: '/api',
+    baseURL: 'http://coderlhd.life:8888/api/private/v1',
     timeout: 5000
   });
 
