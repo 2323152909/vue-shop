@@ -9,15 +9,15 @@ module.exports = {
         .clear()
         .add('./src/main-dev.js');
 
-      //config.set('externals', {
-      //    vue: 'Vue',
-      //    'vue-router': 'VueRouter',
-      //    axios: 'axios',
-      //    lodash: '_',
-      //    echarts: 'echarts',
-      //    nprogress: 'NProgress',
-      //   'vue-quill-editor': 'VueQuillEditor'
-      //})
+      config.set('externals', {
+        vue: 'Vue',
+        'vue-router': 'VueRouter',
+        axios: 'axios',
+        lodash: '_',
+        echarts: 'echarts',
+        nprogress: 'NProgress',
+        'vue-quill-editor': 'VueQuillEditor'
+      });
 
       config.plugin('html').tap((args) => {
         args[0].isProd = true;
