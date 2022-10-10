@@ -1,28 +1,29 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 // import Login from '../components/Login'
-const Login = () => import('../components/Login')
+const Login = () => import('../components/Login');
 // import Home from '../components/Home'
-const Home = () => import('../components/Home')
+const Home = () => import('../components/Home');
 // import Welcome from '../components/Welcome'
-const Welcome = () => import('../components/Welcome')
+const Welcome = () => import('../components/Welcome');
 // import Users from '../views/user/Users'
-const Users = () => import('../views/user/Users')
+const Users = () => import('../views/user/Users');
 // import Roles from '../views/power/Roles'
-const Roles = () => import('../views/power/Roles')
+const Roles = () => import('../views/power/Roles');
 // import Rights from '../views/power/Rights'
-const Rights = () => import('../views/power/Rights')
-const Cate = () => import('../views/goods/Cate')
-const Params = () => import('../views/goods/Params')
-const List = () => import('../views/goods/List')
-const Add = () => import('../views/goods/Add')
-const Order = () => import('../views/order/Order')
-const Report = () => import('../views/report/Report')
+const Rights = () => import('../views/power/Rights');
+const Cate = () => import('../views/goods/Cate');
+const Params = () => import('../views/goods/Params');
+const List = () => import('../views/goods/List');
+const Add = () => import('../views/goods/Add');
+const Order = () => import('../views/order/Order');
+const Report = () => import('../views/report/Report');
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
-const routes = [{
+const routes = [
+  {
     path: '',
     redirect: '/login'
   },
@@ -39,7 +40,8 @@ const routes = [{
     redirect: '/welcome',
     component: Home,
     // 主页中的子面板路由信息
-    children: [{
+    children: [
+      {
         // 欢迎页面路由信息，默认进入主页重定向到欢迎页面
         name: 'welcome',
         path: '/welcome',
@@ -101,13 +103,13 @@ const routes = [{
       }
     ]
   }
-]
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
-})
+});
 
 // 路由导航守卫
 router.beforeEach((to, from, next) => {
@@ -125,6 +127,6 @@ router.beforeEach((to, from, next) => {
   if (!tokenStr) return next('/login');
 
   next();
-})
+});
 
-export default router
+export default router;
