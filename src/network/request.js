@@ -1,13 +1,13 @@
-import axios from 'axios';
+import axios from "axios";
 
 // 导入 NProgress对应的 js和 css
-import NProgress from 'nprogress';
+import NProgress from "nprogress";
 // import 'nprogress/nprogress.css'
 
 export function request1(config) {
   const instance = axios.create({
-    baseURL: 'http://coderlhd.life:8888/api/private/v1',
-    timeout: 5000
+    baseURL: "http://coderlhd.top:8888/api/private/v1",
+    timeout: 5000,
   });
 
   // 请求拦截器
@@ -15,7 +15,7 @@ export function request1(config) {
   instance.interceptors.request.use(
     (request) => {
       // 为请求头对象，添加token 验证的 Authorization 字段
-      request.headers.Authorization = sessionStorage.getItem('token');
+      request.headers.Authorization = sessionStorage.getItem("token");
       // 启用进度条
       NProgress.start();
       return request;
